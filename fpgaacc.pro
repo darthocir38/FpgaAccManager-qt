@@ -13,8 +13,14 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        fpgaacc.cpp
+        fpgaacc.cpp \
+    generategriddialog.cpp \
+    editgriddialog.cpp
 
-HEADERS  += fpgaacc.h
+HEADERS  += fpgaacc.h \
+    generategriddialog.h \
+    editgriddialog.h
 
-FORMS    += fpgaacc.ui
+FORMS    += fpgaacc.ui \
+    generategriddialog.ui \
+    editgriddialog.ui
