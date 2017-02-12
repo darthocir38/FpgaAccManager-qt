@@ -20,6 +20,7 @@ private slots:
 
 private:
     Ui::FPGAAcc *ui;
+
 };
 
 #endif // FPGAACC_H

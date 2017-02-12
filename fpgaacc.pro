@@ -11,16 +11,8 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = fpgaacc
 TEMPLATE = app
 
+SOURCES   += $$system("find . '(' -name '*.cpp' -or -name '*.cc'  ')' -not -name '*.git*' -not -wholename './libs/*' -not -wholename '*/.build*'")
+HEADERS   += $$system("find . '(' -name '*.h'   -or -name '*.hpp' ')' -not -name '*.git*' -not -wholename './libs/*' -not -wholename '*/.build*'")
+FORMS     += $$system("find . -name '*.ui'                            -not -name '*.git*' -not -wholename './libs/*' -not -wholename '*/.build*'")
+RESOURCES += $$system("find . -name '*.qrc'                           -not -name '*.git*' -not -wholename './libs/*' -not -wholename '*/.build*'")
 
-SOURCES += main.cpp\
-        fpgaacc.cpp \
-    generategriddialog.cpp \
-    editgriddialog.cpp
-
-HEADERS  += fpgaacc.h \
-    generategriddialog.h \
-    editgriddialog.h
-
-FORMS    += fpgaacc.ui \
-    generategriddialog.ui \
-    editgriddialog.ui
