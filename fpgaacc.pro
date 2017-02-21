@@ -8,6 +8,9 @@ QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
+QMAKE_CXXFLAGS += -std=c++11
+
+
 TARGET = fpgaacc
 TEMPLATE = app
 
@@ -16,3 +19,5 @@ HEADERS   += $$system("find . '(' -name '*.h'   -or -name '*.hpp' ')' -not -name
 FORMS     += $$system("find . -name '*.ui'                            -not -name '*.git*' -not -wholename './libs/*' -not -wholename '*/.build*'")
 RESOURCES += $$system("find . -name '*.qrc'                           -not -name '*.git*' -not -wholename './libs/*' -not -wholename '*/.build*'")
 
+
+unix:!macx: LIBS += -lqjson

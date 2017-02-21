@@ -1,6 +1,8 @@
 #ifndef FPGAACC_H
 #define FPGAACC_H
 
+#include "hw/noc_accelerator.h"
+
 #include <QMainWindow>
 
 namespace Ui {
@@ -18,9 +20,11 @@ public:
 private slots:
     void on_createDesign_clicked();
 
+    void on_saveDesign_clicked();
+
 private:
     Ui::FPGAAcc *ui;
-
+    NocAccelerator hwnoc;
 };
 
 #endif // FPGAACC_H
