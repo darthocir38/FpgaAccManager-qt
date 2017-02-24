@@ -1,6 +1,8 @@
 #ifndef NOCACCELERATORMODEL_H
 #define NOCACCELERATORMODEL_H
 
+#include "src/hw/noc_accelerator.h"
+
 #include <QAbstractItemModel>
 
 class NocAcceleratorModel : public QAbstractItemModel
@@ -8,7 +10,7 @@ class NocAcceleratorModel : public QAbstractItemModel
     Q_OBJECT
 
 public:
-    explicit NocAcceleratorModel(QObject *parent = 0);
+    explicit NocAcceleratorModel(const NocAccelerator::ptr& accelerator, QObject *parent = 0);
 
     // Basic functionality:
     QModelIndex index(int row, int column,
@@ -21,6 +23,7 @@ public:
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
 
 private:
+    NocAccelerator::ptr _accelerator;
 };
 
 #endif // NOCACCELERATORMODEL_H

@@ -1,7 +1,8 @@
 #include "nocacceleratormodel.h"
 
-NocAcceleratorModel::NocAcceleratorModel(QObject *parent)
+NocAcceleratorModel::NocAcceleratorModel(const NocAccelerator::ptr &accelerator, QObject *parent)
     : QAbstractItemModel(parent)
+    , _accelerator(accelerator)
 {
 }
 
@@ -20,7 +21,7 @@ int NocAcceleratorModel::rowCount(const QModelIndex &parent) const
     if (!parent.isValid())
         return 0;
 
-    // FIXME: Implement me!
+    _accelerator->rows();
 }
 
 int NocAcceleratorModel::columnCount(const QModelIndex &parent) const
@@ -28,7 +29,8 @@ int NocAcceleratorModel::columnCount(const QModelIndex &parent) const
     if (!parent.isValid())
         return 0;
 
-    // FIXME: Implement me!
+    _accelerator->cols();
+
 }
 
 QVariant NocAcceleratorModel::data(const QModelIndex &index, int role) const

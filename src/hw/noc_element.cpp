@@ -1,22 +1,30 @@
 #include "noc_element.h"
 
-NocElement::NocElement(unsigned col, unsigned row, TileType type) : col(col), row(row), type(type)
+NocElement::NocElement(unsigned col, unsigned row, TileType type)
+    : _col(col)
+    , _row(row)
+    , _type(type)
 {
 }
-NocElement::NocElement() : col(0), row(0), type(TileType::Empty)
+NocElement::NocElement() : _col(0), _row(0), _type(TileType::Empty)
 {
 }
 
 void NocElement::read(const QJsonObject &json)
 {
-    row = json["row"].toDouble();
-    col = json["col"].toDouble();
-    type = TileType(qRound(json["classType"].toDouble()));
+    _row = json["row"].toDouble();
+    _col = json["col"].toDouble();
+    _type = TileType(qRound(json["classType"].toDouble()));
 }
 
 void NocElement::write(QJsonObject &json) const
 {
-    json["row"] = (double)row;
-    json["col"] = (double)col;
-    json["tileType"] = type;
+    json["row"] = (double)_row;
+    json["col"] = (double)_col;
+    json["tileType"] = _type;
+}
+
+std::string NocElement::to_string()
+{
+    return typeToString(_type)+"_"+std::to_string(_col)+"_"+std::to_string(_row);
 }
