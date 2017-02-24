@@ -24,7 +24,7 @@ private slots:
 
 private:
     Ui::FPGAAcc *ui;
-    NocAccelerator hwnoc;
+    NocAccelerator::ptr _hwnoc;
 };
 
 #endif // FPGAACC_H

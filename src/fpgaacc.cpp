@@ -12,7 +12,7 @@
 FPGAAcc::FPGAAcc(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::FPGAAcc),
-    hwnoc(5,5)
+    _hwnoc(new NocAccelerator(5,4))
 {
     ui->setupUi(this);
 }
@@ -31,7 +31,7 @@ void FPGAAcc::on_createDesign_clicked()
 
 void FPGAAcc::on_saveDesign_clicked()
 {
-    QFile file(QStringLiteral("save.json"));
+    QFile file(QStringLiteral("/tmp/save.json"));
 
     if (!file.open(QIODevice::WriteOnly))
     {
@@ -40,7 +40,7 @@ void FPGAAcc::on_saveDesign_clicked()
     }
 
     QJsonObject acclObject;
-    hwnoc.write(acclObject);
+    _hwnoc->write(acclObject);
     QJsonDocument saveDoc(acclObject);
     file.write(saveDoc.toJson());
 }
