@@ -8,6 +8,7 @@
 #include <QJsonDocument>
 
 #include <QAbstractItemModel>
+#include <QFileDialog>
 
 // include headers that implement a archive in simple text format
 
@@ -28,14 +29,22 @@ FPGAAcc::~FPGAAcc()
 }
 
 
-void FPGAAcc::on_createDesign_clicked()
+void FPGAAcc::on_action_load_hw_triggered()
 {
 
 }
 
-void FPGAAcc::on_saveDesign_clicked()
+void FPGAAcc::on_action_save_hw_triggered()
 {
-    QFile file(QStringLiteral("/tmp/save.json"));
+    QString filePath = QFileDialog::getOpenFileName(
+                          this, tr("Save File"), "",
+                          tr("Config (*.json)"));
+    writeToFile(filePath);
+}
+
+void FPGAAcc::writeToFile(const QString &fileName)
+{
+    QFile file(fileName);
 
     if (!file.open(QIODevice::WriteOnly))
     {
@@ -48,4 +57,3 @@ void FPGAAcc::on_saveDesign_clicked()
     QJsonDocument saveDoc(acclObject);
     file.write(saveDoc.toJson());
 }
-

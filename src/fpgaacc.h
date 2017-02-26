@@ -19,11 +19,14 @@ public:
     ~FPGAAcc();
 
 private slots:
-    void on_createDesign_clicked();
 
-    void on_saveDesign_clicked();
+    void on_action_load_hw_triggered();
+    void on_action_save_hw_triggered();
 
 private:
+
+    void writeToFile(const QString &fileName);
+
     Ui::FPGAAcc *ui;
     NocAccelerator::ptr _hwnoc;
 
