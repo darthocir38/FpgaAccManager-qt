@@ -10,21 +10,21 @@ class NocAccelerator
 {
 public:
     typedef std::shared_ptr<NocAccelerator> ptr;
-    NocAccelerator(unsigned _rows, unsigned _cols);
+    NocAccelerator(unsigned _rc, unsigned _cc);
 
     void read(const QJsonObject &json);
     void write(QJsonObject &json) const;
 
     unsigned rows() const;
-    void rows(const unsigned &rows);
+    unsigned columns() const;
 
-    unsigned cols() const;
-    void cols(const unsigned &cols);
+    NocElement::ptr get_element(unsigned row, unsigned column);
+
 
 private:
-    QVector<NocElement> _tiles;
-    unsigned _rows;
-    unsigned _cols;
+    QVector<NocElement::ptr> _tiles;
+    unsigned _rc;
+    unsigned _cc;
 };
 
 #endif // NOC_ACCELERATOR_H

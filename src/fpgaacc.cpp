@@ -1,10 +1,13 @@
 #include "fpgaacc.h"
 #include "ui_fpgaacc.h"
-#include "ui/generategriddialog.h"
+
+#include "model/noc_accelerator_model.h"
 
 #include <QFile>
 #include <QJsonArray>
 #include <QJsonDocument>
+
+#include <QAbstractItemModel>
 
 // include headers that implement a archive in simple text format
 
@@ -12,9 +15,11 @@
 FPGAAcc::FPGAAcc(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::FPGAAcc),
-    _hwnoc(new NocAccelerator(5,4))
+    _hwnoc(new NocAccelerator(1,1)),
+    data(new Model(_hwnoc))
 {
     ui->setupUi(this);
+    ui->hwtable->setModel(data);
 }
 
 FPGAAcc::~FPGAAcc()
@@ -22,11 +27,10 @@ FPGAAcc::~FPGAAcc()
     delete ui;
 }
 
+
 void FPGAAcc::on_createDesign_clicked()
 {
-    GenerateGridDialog grid;
-    grid.setModal(true);
-    grid.exec();
+
 }
 
 void FPGAAcc::on_saveDesign_clicked()
@@ -44,3 +48,4 @@ void FPGAAcc::on_saveDesign_clicked()
     QJsonDocument saveDoc(acclObject);
     file.write(saveDoc.toJson());
 }
+

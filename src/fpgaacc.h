@@ -4,6 +4,7 @@
 #include "hw/noc_accelerator.h"
 
 #include <QMainWindow>
+#include <QAbstractItemModel>
 
 namespace Ui {
 class FPGAAcc;
@@ -25,6 +26,9 @@ private slots:
 private:
     Ui::FPGAAcc *ui;
     NocAccelerator::ptr _hwnoc;
+
+    QAbstractItemModel *data;
+
 };
 
 #endif // FPGAACC_H

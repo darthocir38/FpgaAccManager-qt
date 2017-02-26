@@ -2,10 +2,13 @@
 #define NOCELEMENT_H
 
 #include <QJsonObject>
+#include <memory>
 
 class NocElement
 {
 public:
+    typedef std::shared_ptr<NocElement> ptr;
+
     enum TileType
     {
         Empty, Process, IO
@@ -15,8 +18,8 @@ public:
     {
         switch (type)
         {
-            case Empty: return "Empty";
-            case Process: return "Process";
+            case Empty: return "E";
+            case Process: return "P";
             case IO: return "IO";
         }
         return "Error";

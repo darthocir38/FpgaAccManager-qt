@@ -2,12 +2,12 @@
 #include <QJsonArray>
 
 
-NocAccelerator::NocAccelerator(unsigned row, unsigned col) : _rows(row), _cols(col)
+NocAccelerator::NocAccelerator(unsigned row, unsigned col) : _rc(row), _cc(col)
 {
     for(unsigned i = 0; i < row; i++)
         for (unsigned j = 0; j< col; j++)
         {
-            NocElement elem(i,j, NocElement::TileType::Process);
+            NocElement::ptr elem(new NocElement(i,j, NocElement::TileType::Empty));
             _tiles.push_back(elem);
         }
 }
@@ -19,8 +19,8 @@ void NocAccelerator::read(const QJsonObject &json)
     for (int elemIndex = 0; elemIndex < elemArray.size(); ++elemIndex)
     {
         QJsonObject elemObject = elemArray[elemIndex].toObject();
-        NocElement elem;
-        elem.read(elemObject);
+        NocElement::ptr elem;
+        elem->read(elemObject);
         _tiles.push_back(elem);
     }
 }
@@ -28,10 +28,10 @@ void NocAccelerator::read(const QJsonObject &json)
 void NocAccelerator::write(QJsonObject &json) const
 {
     QJsonArray elemArray;
-    for(const NocElement elem : _tiles)
+    for(const NocElement::ptr elem : _tiles)
     {
         QJsonObject elemObject;
-        elem.write(elemObject);
+        elem->write(elemObject);
         elemArray.append(elemObject);
     }
     json["elems"] = elemArray;
@@ -39,20 +39,15 @@ void NocAccelerator::write(QJsonObject &json) const
 
 unsigned NocAccelerator::rows() const
 {
-    return _rows;
+    return _rc;
 }
 
-void NocAccelerator::rows(const unsigned &rows)
+unsigned NocAccelerator::columns() const
 {
-    _rows = rows;
+    return _cc;
 }
 
-unsigned NocAccelerator::cols() const
+NocElement::ptr NocAccelerator::get_element(unsigned row, unsigned column)
 {
-    return _cols;
-}
-
-void NocAccelerator::cols(const unsigned &cols)
-{
-    _cols = cols;
+    return _tiles.at((row*_cc)+column);
 }
