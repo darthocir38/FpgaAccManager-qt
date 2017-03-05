@@ -19,7 +19,10 @@ public:
     unsigned columns() const;
 
     NocElement::ptr get_element(unsigned row, unsigned column);
-
+    void add_column();
+    void remove_column();
+    void add_row();
+    void remove_row();
 
 private:
     QVector<NocElement::ptr> _tiles;

@@ -107,3 +107,55 @@ Qt::ItemFlags Model::flags(const QModelIndex &index) const
         return 0;
     return Qt::ItemIsDragEnabled|QAbstractItemModel::flags(index);
 }
+
+bool Model::insertRows(int position, int rows, const QModelIndex &index)
+{
+    Q_UNUSED(index);
+    Q_UNUSED(rows);
+    beginInsertRows(QModelIndex(), position, position);
+
+    _hw_noc->add_row();
+
+    endInsertRows();
+    return true;
+}
+
+bool Model::removeRows(int position, int rows, const QModelIndex &index)
+{
+    Q_UNUSED(index);
+    Q_UNUSED(rows);
+    beginRemoveRows(QModelIndex(), position-1, position-1);
+    _hw_noc->remove_row();
+    endRemoveRows();
+    return true;
+}
+bool Model::insertColumns(int position, int count, const QModelIndex &index)
+{
+    Q_UNUSED(index);
+    Q_UNUSED(count);
+    beginInsertColumns(QModelIndex(), position, position);
+    _hw_noc->add_column();
+    endInsertColumns();
+    return true;
+}
+
+bool Model::removeColumns(int position, int count, const QModelIndex &index)
+{
+    Q_UNUSED(index);
+    Q_UNUSED(count);
+    beginRemoveColumns(QModelIndex(), position-1, position-1);
+    _hw_noc->remove_column();
+    endRemoveColumns();
+    return true;
+}
+
+bool Model::setData(const QModelIndex &index, const QVariant &value, int role)
+ {
+    Q_UNUSED(value);
+    if (index.isValid() && role == Qt::EditRole)
+    {
+        emit(dataChanged(index, index));
+        return true;
+    }
+    return false;
+ }

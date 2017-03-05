@@ -14,17 +14,27 @@ void NocElement::read(const QJsonObject &json)
 {
     _row = json["row"].toDouble();
     _col = json["col"].toDouble();
-    _type = TileType(qRound(json["classType"].toDouble()));
+    _type = TileType(stringToType(json["tileType"].toString().toStdString()));
 }
 
 void NocElement::write(QJsonObject &json) const
 {
     json["row"] = (double)_row;
     json["col"] = (double)_col;
-    json["tileType"] = _type;
+    json["tileType"] = QString::fromStdString(typeToString(_type));
 }
 
 std::string NocElement::to_string()
 {
     return typeToString(_type)+"_"+std::to_string(_col)+"_"+std::to_string(_row);
+}
+
+NocElement::TileType NocElement::type() const
+{
+    return _type;
+}
+
+void NocElement::type(const TileType &type)
+{
+    _type = type;
 }

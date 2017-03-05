@@ -5,6 +5,7 @@
 
 #include <QMainWindow>
 #include <QAbstractItemModel>
+#include <QStringListModel>
 
 namespace Ui {
 class FPGAAcc;
@@ -23,6 +24,20 @@ private slots:
     void on_action_load_hw_triggered();
     void on_action_save_hw_triggered();
 
+    void on_pb_c_inc_clicked();
+
+    void on_pb_c_dec_clicked();
+
+    void on_pb_r_inc_clicked();
+
+    void on_pb_r_dec_clicked();
+
+    void on_hwtable_activated(const QModelIndex &index);
+
+    void on_hwtable_clicked(const QModelIndex &index);
+
+    void on_pb_update_tile_clicked();
+
 private:
 
     void writeToFile(const QString &fileName);
@@ -30,7 +45,8 @@ private:
     Ui::FPGAAcc *ui;
     NocAccelerator::ptr _hwnoc;
 
-    QAbstractItemModel *data;
+    QAbstractItemModel *_data;
+    QStringListModel *_typeModel;
 
 };
 
