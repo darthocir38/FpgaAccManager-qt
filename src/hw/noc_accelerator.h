@@ -24,6 +24,8 @@ public:
     void add_row();
     void remove_row();
 
+    void generate_hw_design(QString const& filename);
+
 private:
     QVector<NocElement::ptr> _tiles;
     unsigned _rc;

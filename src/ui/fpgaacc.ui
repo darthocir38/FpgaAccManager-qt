@@ -250,6 +250,8 @@
     </property>
     <addaction name="action_load_hw"/>
     <addaction name="action_save_hw"/>
+    <addaction name="separator"/>
+    <addaction name="actionExport_BlockDiagram"/>
    </widget>
    <widget class="QMenu" name="menuOperator">
     <property name="title">
@@ -288,6 +290,11 @@
   <action name="action_save_op">
    <property name="text">
     <string>Save</string>
+   </property>
+  </action>
+  <action name="actionExport_BlockDiagram">
+   <property name="text">
+    <string>Export BlockDiagram</string>
    </property>
   </action>
  </widget>

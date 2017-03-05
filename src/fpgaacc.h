@@ -38,6 +38,8 @@ private slots:
 
     void on_pb_update_tile_clicked();
 
+    void on_actionExport_BlockDiagram_triggered();
+
 private:
 
     void writeToFile(const QString &fileName);

@@ -128,3 +128,11 @@ void FPGAAcc::on_pb_update_tile_clicked()
     elem->type(NocElement::stringToType(ui->cb_type->currentText().toStdString()));
     _data->setData(index, QVariant(), Qt::EditRole);
 }
+
+void FPGAAcc::on_actionExport_BlockDiagram_triggered()
+{
+    QString filePath = QFileDialog::getSaveFileName(
+                          this, tr("Export Hardware"), "",
+                          tr("BlockDiagram (*.bd)"));
+    _hwnoc->generate_hw_design(filePath);
+}
