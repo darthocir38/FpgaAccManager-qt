@@ -135,45 +135,143 @@ void NocAccelerator::generate_hw_design(const QString &filename)
     xmlWriter.setAutoFormatting(true);
     xmlWriter.setAutoFormattingIndent(4);
 
+    QString xuri("http://www.xilinx.com/bd");
+    QString spirituri("http://www.spiritconsortium.org/XMLSchema/SPIRIT/1685-2009");
 
     xmlWriter.writeStartDocument();
 
-    xmlWriter.writeNamespace("test1","test2");
-    xmlWriter.writeStartElement("t1"",test3");
+    xmlWriter.writeNamespace(xuri,"bd");
+    xmlWriter.writeStartElement(xuri,"repository");
 
-    xmlWriter.writeAttribute("test4", "test5", "test6");
+    xmlWriter.writeAttribute(xuri,"BoundaryCRC", "0x0");
+    xmlWriter.writeAttribute(xuri,"device","xc7vx690tffg1761-2");
+    xmlWriter.writeAttribute(xuri,"synthFlowMode","Hierarchical");
+    xmlWriter.writeAttribute(xuri,"tool_version","2016.4");
+    xmlWriter.writeAttribute(xuri,"top","design_1");
+    xmlWriter.writeAttribute(xuri,"version","1.00.a");
+
+    xmlWriter.writeStartElement("spirit:component");
+    xmlWriter.writeNamespace(spirituri,"spirit");
+
+    xmlWriter.writeTextElement(spirituri,"vendor","xilinx.com");
+    xmlWriter.writeTextElement(spirituri,"library","BlockDiagram");
+    xmlWriter.writeTextElement(spirituri,"name","design_1");
+    xmlWriter.writeTextElement(spirituri,"version","1.00.a");
+
+    xmlWriter.writeStartElement(spirituri,"parameters");
+    xmlWriter.writeStartElement(spirituri,"parameter");
+
+    xmlWriter.writeTextElement(spirituri,"name","isTop");
+    xmlWriter.writeStartElement(spirituri,"value");
+    xmlWriter.writeAttribute(spirituri, "format","bool");
+    xmlWriter.writeAttribute(spirituri,"resolve","immediate");
+    xmlWriter.writeCharacters("true");
+
+    xmlWriter.writeEndElement(); //value
+
+    xmlWriter.writeEndElement(); //parameter
+    xmlWriter.writeEndElement(); //parameters
 
 
-    //<bd:repository xmlns:bd="http://www.xilinx.com/bd" bd:BoundaryCRC="0x0" bd:device="xc7vx690tffg1761-2" bd:synthFlowMode="Hierarchical" bd:tool_version="2016.4" bd:top="design_1" bd:version="1.00.a">
+    xmlWriter.writeStartElement(spirituri,"model");
+    xmlWriter.writeStartElement(spirituri,"views");
+    xmlWriter.writeStartElement(spirituri,"view");
+    xmlWriter.writeTextElement(spirituri,"name","BlockDiagram");
+    xmlWriter.writeTextElement(spirituri,"envIdentifier",":vivado.xilinx.com:");
 
-
+    xmlWriter.writeStartElement(spirituri,"hierarchyRef");
+    xmlWriter.writeAttribute(spirituri, "library","BlockDiagram");
+    xmlWriter.writeAttribute(spirituri, "name","design_1_imp");
+    xmlWriter.writeAttribute(spirituri, "vendor","xilinx.com");
+    xmlWriter.writeAttribute(spirituri, "version","1.00.a");
     xmlWriter.writeEndElement();
 
-    /*
-    <spirit:component xmlns:spirit="http://www.spiritconsortium.org/XMLSchema/SPIRIT/1685-2009">
-      <spirit:vendor>xilinx.com</spirit:vendor>
-      <spirit:library>BlockDiagram</spirit:library>
-      <spirit:name>design_1</spirit:name>
-      <spirit:version>1.00.a</spirit:version>
-      <spirit:parameters>
-        <spirit:parameter>
-          <spirit:name>isTop</spirit:name>
-          <spirit:value spirit:format="bool" spirit:resolve="immediate">true</spirit:value>
-        </spirit:parameter>
-      </spirit:parameters>
-      <spirit:model>
-        <spirit:views>
-          <spirit:view>
-            <spirit:name>BlockDiagram</spirit:name>
-            <spirit:envIdentifier>:vivado.xilinx.com:</spirit:envIdentifier>
-            <spirit:hierarchyRef spirit:library="BlockDiagram" spirit:name="design_1_imp" spirit:vendor="xilinx.com" spirit:version="1.00.a"/>
-          </spirit:view>
-        </spirit:views>
-      </spirit:model>
-    </spirit:component>
+    xmlWriter.writeEndElement();
+    xmlWriter.writeEndElement();
+    xmlWriter.writeEndElement();
+    xmlWriter.writeEndElement(); //component
 
-*/
 
+    xmlWriter.writeStartElement(spirituri,"design");
+    xmlWriter.writeTextElement(spirituri,"vendor","xilinx.com");
+    xmlWriter.writeTextElement(spirituri,"library","BlockDiagram");
+    xmlWriter.writeTextElement(spirituri,"name","design_1_imp");
+    xmlWriter.writeTextElement(spirituri,"version","1.00.a");
+
+    xmlWriter.writeStartElement(spirituri,"componentInstances");
+  /*
+          <spirit:componentInstance>
+            <spirit:instanceName>NocSwitch_0</spirit:instanceName>
+            <spirit:componentRef spirit:library="user" spirit:name="NocSwitch" spirit:vendor="Fabmatics.com" spirit:version="1.0"/>
+            <spirit:configurableElementValues>
+              <spirit:configurableElementValue spirit:referenceId="bd:xciName">design_1_NocSwitch_0_0</spirit:configurableElementValue>
+            </spirit:configurableElementValues>
+          </spirit:componentInstance>
+          <spirit:componentInstance>
+            <spirit:instanceName>noc_connector_dpr_0</spirit:instanceName>
+            <spirit:componentRef spirit:library="user" spirit:name="noc_connector_dpr" spirit:vendor="Fabmatics.com" spirit:version="1.0"/>
+            <spirit:configurableElementValues>
+              <spirit:configurableElementValue spirit:referenceId="bd:xciName">design_1_noc_connector_dpr_0_0</spirit:configurableElementValue>
+            </spirit:configurableElementValues>
+          </spirit:componentInstance>
+          <spirit:componentInstance>
+            <spirit:instanceName>noc_connector_dpr_2</spirit:instanceName>
+            <spirit:componentRef spirit:library="user" spirit:name="noc_connector_dpr" spirit:vendor="Fabmatics.com" spirit:version="1.0"/>
+            <spirit:configurableElementValues>
+              <spirit:configurableElementValue spirit:referenceId="bd:xciName">design_1_noc_connector_dpr_2_0</spirit:configurableElementValue>
+            </spirit:configurableElementValues>
+          </spirit:componentInstance>
+        */
+    xmlWriter.writeEndElement(); //componentInstances
+    xmlWriter.writeStartElement(spirituri,"adHocConnections");
+
+
+        /*
+          <spirit:adHocConnection>
+            <spirit:name>noc_connector_dpr_0_noc_in_ready</spirit:name>
+            <spirit:internalPortReference spirit:componentRef="noc_connector_dpr_0" spirit:portRef="noc_in_ready"/>
+            <spirit:internalPortReference spirit:componentRef="NocSwitch_0" spirit:portRef="out_center_ready"/>
+          </spirit:adHocConnection>
+          <spirit:adHocConnection>
+            <spirit:name>noc_connector_dpr_0_noc_out_valid</spirit:name>
+            <spirit:internalPortReference spirit:componentRef="noc_connector_dpr_0" spirit:portRef="noc_out_valid"/>
+            <spirit:internalPortReference spirit:componentRef="NocSwitch_0" spirit:portRef="in_center_valid"/>
+          </spirit:adHocConnection>
+          <spirit:adHocConnection>
+            <spirit:name>noc_connector_dpr_0_noc_out_vc</spirit:name>
+            <spirit:internalPortReference spirit:componentRef="noc_connector_dpr_0" spirit:portRef="noc_out_vc"/>
+            <spirit:internalPortReference spirit:componentRef="NocSwitch_0" spirit:portRef="in_center_vc"/>
+          </spirit:adHocConnection>
+          <spirit:adHocConnection>
+            <spirit:name>noc_connector_dpr_0_noc_out_data</spirit:name>
+            <spirit:internalPortReference spirit:componentRef="noc_connector_dpr_0" spirit:portRef="noc_out_data"/>
+            <spirit:internalPortReference spirit:componentRef="NocSwitch_0" spirit:portRef="in_center_data"/>
+          </spirit:adHocConnection>
+          <spirit:adHocConnection>
+            <spirit:name>NocSwitch_0_in_center_ready</spirit:name>
+            <spirit:internalPortReference spirit:componentRef="NocSwitch_0" spirit:portRef="in_center_ready"/>
+            <spirit:internalPortReference spirit:componentRef="noc_connector_dpr_0" spirit:portRef="noc_out_ready"/>
+          </spirit:adHocConnection>
+          <spirit:adHocConnection>
+            <spirit:name>NocSwitch_0_out_center_valid</spirit:name>
+            <spirit:internalPortReference spirit:componentRef="NocSwitch_0" spirit:portRef="out_center_valid"/>
+            <spirit:internalPortReference spirit:componentRef="noc_connector_dpr_0" spirit:portRef="noc_in_valid"/>
+          </spirit:adHocConnection>
+          <spirit:adHocConnection>
+            <spirit:name>NocSwitch_0_out_center_vc</spirit:name>
+            <spirit:internalPortReference spirit:componentRef="NocSwitch_0" spirit:portRef="out_center_vc"/>
+            <spirit:internalPortReference spirit:componentRef="noc_connector_dpr_0" spirit:portRef="noc_in_vc"/>
+          </spirit:adHocConnection>
+          <spirit:adHocConnection>
+            <spirit:name>NocSwitch_0_out_center_data</spirit:name>
+            <spirit:internalPortReference spirit:componentRef="NocSwitch_0" spirit:portRef="out_center_data"/>
+            <spirit:internalPortReference spirit:componentRef="noc_connector_dpr_0" spirit:portRef="noc_in_data"/>
+          </spirit:adHocConnection>
+    */
+
+    xmlWriter.writeEndElement(); //adHocConnections
+    xmlWriter.writeEndElement(); //design
+    xmlWriter.writeEndElement(); //repository
     xmlWriter.writeEndDocument();
    }
 
