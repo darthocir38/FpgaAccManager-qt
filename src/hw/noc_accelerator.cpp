@@ -199,15 +199,42 @@ void NocAccelerator::generate_hw_design(const QString &filename)
     xmlWriter.writeTextElement(spirituri,"version","1.00.a");
 
     xmlWriter.writeStartElement(spirituri,"componentInstances");
-  /*
-          <spirit:componentInstance>
-            <spirit:instanceName>NocSwitch_0</spirit:instanceName>
-            <spirit:componentRef spirit:library="user" spirit:name="NocSwitch" spirit:vendor="Fabmatics.com" spirit:version="1.0"/>
-            <spirit:configurableElementValues>
-              <spirit:configurableElementValue spirit:referenceId="bd:xciName">design_1_NocSwitch_0_0</spirit:configurableElementValue>
-            </spirit:configurableElementValues>
-          </spirit:componentInstance>
-          <spirit:componentInstance>
+
+    for (auto const& element : _tiles)
+    {
+        QString name = QString("NocSwitch_%1_%2").arg(element->col()).arg(element->row());
+        //<spirit:componentInstance>
+        xmlWriter.writeStartElement(spirituri,"componentInstance");
+        //<spirit:instanceName>NocSwitch_0</spirit:instanceName>
+        xmlWriter.writeTextElement(spirituri,"InstanceName",name);
+
+        //<spirit:componentRef spirit:library="user" spirit:name="NocSwitch" spirit:vendor="Fabmatics.com" spirit:version="1.0"/>
+        xmlWriter.writeStartElement(spirituri,"componentRef");
+        xmlWriter.writeAttribute(spirituri,"library","user");
+        xmlWriter.writeAttribute(spirituri,"name","NocSwitch");
+        xmlWriter.writeAttribute(spirituri,"vendor","Fabmatics.com");
+        xmlWriter.writeAttribute(spirituri,"version","1.0");
+        xmlWriter.writeEndElement(); //componentRef
+
+        //<spirit:configurableElementValues>
+        xmlWriter.writeStartElement(spirituri,"configurableElementValues");
+            //<spirit:configurableElementValue spirit:referenceId="bd:xciName">design_1_NocSwitch_0_0</spirit:configurableElementValue>
+            xmlWriter.writeStartElement(spirituri,"configurableElementValue");
+            QString attr_value = QString("design_1_%1").arg(name);
+            xmlWriter.writeAttribute(spirituri,"referenceId","bd:xciName");
+            xmlWriter.writeCharacters(attr_value);
+            xmlWriter.writeEndElement(); //configurableElementValue
+        xmlWriter.writeEndElement(); //configurableElementValues
+        xmlWriter.writeEndElement(); //componentInstance
+    }
+
+
+    /*
+
+
+
+
+<spirit:componentInstance>
             <spirit:instanceName>noc_connector_dpr_0</spirit:instanceName>
             <spirit:componentRef spirit:library="user" spirit:name="noc_connector_dpr" spirit:vendor="Fabmatics.com" spirit:version="1.0"/>
             <spirit:configurableElementValues>
