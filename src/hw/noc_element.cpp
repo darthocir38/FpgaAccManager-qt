@@ -38,3 +38,13 @@ void NocElement::type(const TileType &type)
 {
     _type = type;
 }
+
+unsigned NocElement::row() const
+{
+    return _row;
+}
+
+unsigned NocElement::col() const
+{
+    return _col;
+}

@@ -72,6 +72,9 @@ public:
     TileType type() const;
     void type(const TileType &type);
 
+    unsigned col() const;
+    unsigned row() const;
+
 private:
     unsigned _col;
     unsigned _row;
