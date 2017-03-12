@@ -76,6 +76,17 @@ protected:
     unsigned _row;
     TileType _type;
 
+    /*
+    out_north_ready
+    out_north_data
+    out_north_vc
+    out_north_valid
+
+    in_north_ready
+    in_north_data
+    in_north_vc
+    in_north_valid
+*/
 };
 
 #endif // NOCELEMENT_H
