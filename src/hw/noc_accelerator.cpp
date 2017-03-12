@@ -1,4 +1,7 @@
 #include "noc_accelerator.h"
+
+#include "noc_entry.h"
+#include "noc_tile.h"
 #include <QJsonArray>
 #include <QXmlStreamWriter>
 #include <QFile>
@@ -120,6 +123,31 @@ void NocAccelerator::remove_row()
 
 }
 
+void NocAccelerator::change_tile_type(unsigned row, unsigned column, NocElement::TileType type)
+{
+    auto elem = get_element(row,column);
+    if(elem->type() != type)
+    {
+        NocElement::ptr new_element;
+        switch (type)
+        {
+        case NocElement::TileType::Empty:
+            new_element.reset(new NocElement(elem));
+            break;
+        case NocElement::TileType::Process:
+            new_element.reset(new NocTile(elem));
+            break;
+        case NocElement::TileType::IO:
+            new_element.reset(new NocEntry(elem));
+            break;
+        }
+
+    std::replace (_tiles.begin(), _tiles.end(), elem, new_element);
+
+    //elem->type(NocElement::stringToType(ui->cb_type->currentText().toStdString()));
+    }
+}
+
 void NocAccelerator::generate_hw_design(const QString &filename)
 {
     QXmlStreamWriter xmlWriter;
@@ -202,55 +230,16 @@ void NocAccelerator::generate_hw_design(const QString &filename)
 
     for (auto const& element : _tiles)
     {
-        QString name = QString("NocSwitch_%1_%2").arg(element->col()).arg(element->row());
-        //<spirit:componentInstance>
-        xmlWriter.writeStartElement(spirituri,"componentInstance");
-        //<spirit:instanceName>NocSwitch_0</spirit:instanceName>
-        xmlWriter.writeTextElement(spirituri,"InstanceName",name);
-
-        //<spirit:componentRef spirit:library="user" spirit:name="NocSwitch" spirit:vendor="Fabmatics.com" spirit:version="1.0"/>
-        xmlWriter.writeStartElement(spirituri,"componentRef");
-        xmlWriter.writeAttribute(spirituri,"library","user");
-        xmlWriter.writeAttribute(spirituri,"name","NocSwitch");
-        xmlWriter.writeAttribute(spirituri,"vendor","Fabmatics.com");
-        xmlWriter.writeAttribute(spirituri,"version","1.0");
-        xmlWriter.writeEndElement(); //componentRef
-
-        //<spirit:configurableElementValues>
-        xmlWriter.writeStartElement(spirituri,"configurableElementValues");
-            //<spirit:configurableElementValue spirit:referenceId="bd:xciName">design_1_NocSwitch_0_0</spirit:configurableElementValue>
-            xmlWriter.writeStartElement(spirituri,"configurableElementValue");
-            QString attr_value = QString("design_1_%1").arg(name);
-            xmlWriter.writeAttribute(spirituri,"referenceId","bd:xciName");
-            xmlWriter.writeCharacters(attr_value);
-            xmlWriter.writeEndElement(); //configurableElementValue
-        xmlWriter.writeEndElement(); //configurableElementValues
-        xmlWriter.writeEndElement(); //componentInstance
+        element->exportIpxactComponents(xmlWriter,spirituri);
     }
 
-
-    /*
-
-
-
-
-<spirit:componentInstance>
-            <spirit:instanceName>noc_connector_dpr_0</spirit:instanceName>
-            <spirit:componentRef spirit:library="user" spirit:name="noc_connector_dpr" spirit:vendor="Fabmatics.com" spirit:version="1.0"/>
-            <spirit:configurableElementValues>
-              <spirit:configurableElementValue spirit:referenceId="bd:xciName">design_1_noc_connector_dpr_0_0</spirit:configurableElementValue>
-            </spirit:configurableElementValues>
-          </spirit:componentInstance>
-          <spirit:componentInstance>
-            <spirit:instanceName>noc_connector_dpr_2</spirit:instanceName>
-            <spirit:componentRef spirit:library="user" spirit:name="noc_connector_dpr" spirit:vendor="Fabmatics.com" spirit:version="1.0"/>
-            <spirit:configurableElementValues>
-              <spirit:configurableElementValue spirit:referenceId="bd:xciName">design_1_noc_connector_dpr_2_0</spirit:configurableElementValue>
-            </spirit:configurableElementValues>
-          </spirit:componentInstance>
-        */
     xmlWriter.writeEndElement(); //componentInstances
     xmlWriter.writeStartElement(spirituri,"adHocConnections");
+
+    for (auto const& element : _tiles)
+    {
+        element->exportIpxactConnections(xmlWriter,spirituri);
+    }
 
 
         /*

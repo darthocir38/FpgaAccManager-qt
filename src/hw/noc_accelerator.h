@@ -24,6 +24,8 @@ public:
     void add_row();
     void remove_row();
 
+    void change_tile_type(unsigned row, unsigned column, NocElement::TileType type);
+
     void generate_hw_design(QString const& filename);
 
 private:

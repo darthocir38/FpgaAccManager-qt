@@ -78,32 +78,25 @@ void FPGAAcc::writeToFile(const QString &fileName)
 
 void FPGAAcc::on_pb_c_inc_clicked()
 {
-    qWarning("1");
-    if(_data->insertColumn(_hwnoc->columns()))
-        qWarning("1+");
+    _data->insertColumn(_hwnoc->columns());
     ui->pb_c_dec->setDisabled(false);
 }
 
 void FPGAAcc::on_pb_c_dec_clicked()
 {
-    qWarning("2");
-    if(_data->removeColumn(_hwnoc->columns()))
-    qWarning("2+");
+    _data->removeColumn(_hwnoc->columns());
     if(_hwnoc->columns()<=1) ui->pb_c_dec->setDisabled(true);
 }
 
 void FPGAAcc::on_pb_r_inc_clicked()
 {
-    qWarning("3");
-    if(_data->insertRow(_hwnoc->rows()))
-    qWarning("3+");
+    _data->insertRow(_hwnoc->rows());
     ui->pb_r_dec->setDisabled(false);
 
 }
 void FPGAAcc::on_pb_r_dec_clicked()
 {
-    if(_data->removeRow(_hwnoc->rows()))
-    qWarning("4+");
+    _data->removeRow(_hwnoc->rows());
     if(_hwnoc->rows()<=1) ui->pb_r_dec->setDisabled(true);
 
 }
@@ -124,8 +117,7 @@ void FPGAAcc::on_hwtable_clicked(const QModelIndex &index)
 void FPGAAcc::on_pb_update_tile_clicked()
 {
     QModelIndex index = ui->hwtable->currentIndex();
-    auto elem = _hwnoc->get_element(index.row(),index.column());
-    elem->type(NocElement::stringToType(ui->cb_type->currentText().toStdString()));
+    _hwnoc->change_tile_type(index.row(),index.column() ,NocElement::stringToType(ui->cb_type->currentText().toStdString()));
     _data->setData(index, QVariant(), Qt::EditRole);
 }
 

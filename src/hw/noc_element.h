@@ -2,6 +2,8 @@
 #define NOCELEMENT_H
 
 #include <QJsonObject>
+#include <QXmlStreamWriter>
+
 #include <memory>
 #include <vector>
 
@@ -46,27 +48,21 @@ public:
         return "Error";
     }
 
-    /*
-    static std::string stringToLongString(std::string ss)
-    {
-        switch (type)
-        {
-            case Empty: return "Empty";
-            case Process: return "ProcessTile";
-            case IO: return "IOTile";
-        }
-        return "Error";
-    }
-    */
     static std::vector<std::string> getListOfTypes()
     {
         return {"E", "P", "IO"};
     }
     NocElement(unsigned col, unsigned row, TileType type);
+    NocElement(NocElement::ptr oldElement);
     NocElement();
 
     void read(const QJsonObject &json);
     void write(QJsonObject &json) const;
+
+    virtual void exportIpxactComponents(QXmlStreamWriter &xmlWriter, const QString &uri);
+    virtual void exportIpxactConnections(QXmlStreamWriter &xmlWriter, const QString &uri);
+
+
 
     std::string to_string();
     TileType type() const;
@@ -75,10 +71,11 @@ public:
     unsigned col() const;
     unsigned row() const;
 
-private:
+protected:
     unsigned _col;
     unsigned _row;
     TileType _type;
+
 };
 
 #endif // NOCELEMENT_H
